@@ -120,3 +120,17 @@ CREATE TABLE login (
   login_time TIMESTAMP NOT NULL DEFAULT NOW(),
   FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
+
+-- Added feature: Notifications
+CREATE TABLE notifications (
+    notification_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    actor_id INT NOT NULL,
+    notification_type VARCHAR(30) NOT NULL,
+    post_id INT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_read BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (actor_id) REFERENCES users(user_id),
+    FOREIGN KEY (post_id) REFERENCES post(post_id)
+);

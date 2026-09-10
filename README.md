@@ -31,3 +31,20 @@ Just raise an issue, we will discuss it.
 ## Feedback
 
 If you have any feedback, please reach out to us at snone181@gmail.com
+
+## My Contributions
+
+This version extends the original Social Media Database Project with a notification management feature.
+
+### Added Features
+- Added a `notifications` table with foreign-key relationships to users and posts.
+- Added notification records for likes and comments.
+- Added analytical SQL queries for unread notifications, notification activity, post engagement, and user interaction patterns.
+- Used aggregation, conditional expressions, joins, grouping and ordering for analysis.
+
+### Technologies
+- MySQL
+- SQL
+- Relational Database Design
+- ER Modeling
+- SQL Analytical Queries

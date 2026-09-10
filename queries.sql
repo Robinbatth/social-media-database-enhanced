@@ -28,7 +28,7 @@ WHERE user_id NOT IN (SELECT user_id FROM post);
 
  
 -- 5. Most Likes Posts
-SELECT post_likes.user_id, post_likes.post_id, COUNT(post_likes.post_id) 
+SELECT post_likes.post_id, COUNT(post_likes.post_id) AS TotalLikes
 FROM post_likes, post
 WHERE post.post_id = post_likes.post_id 
 GROUP BY post_likes.post_id
@@ -97,3 +97,60 @@ WHERE comment_text REGEXP'good|beautiful';
 SELECT user_id, caption, LENGTH(post.caption) AS caption_length FROM post
 ORDER BY caption_length DESC LIMIT 5;
 
+
+-- ============================================================
+-- Custom Analysis Added to the Project
+-- ============================================================
+
+-- 11. Users with the most unread notifications
+SELECT
+    u.user_id,
+    u.username,
+    COUNT(n.notification_id) AS unread_notifications
+FROM users u
+JOIN notifications n
+    ON u.user_id = n.user_id
+WHERE n.is_read = FALSE
+GROUP BY u.user_id, u.username
+ORDER BY unread_notifications DESC;
+
+
+-- 12. Notification activity by type
+SELECT
+    notification_type,
+    COUNT(*) AS total_notifications,
+    SUM(CASE WHEN is_read = FALSE THEN 1 ELSE 0 END) AS unread_notifications
+FROM notifications
+GROUP BY notification_type
+ORDER BY total_notifications DESC;
+
+
+-- 13. Posts receiving the most notifications
+SELECT
+    p.post_id,
+    u.username AS post_owner,
+    COUNT(n.notification_id) AS notification_count
+FROM post p
+JOIN users u
+    ON p.user_id = u.user_id
+JOIN notifications n
+    ON p.post_id = n.post_id
+GROUP BY p.post_id, u.username
+ORDER BY notification_count DESC;
+
+
+-- 14. Users who both receive and generate notifications
+SELECT
+    u.user_id,
+    u.username,
+    COUNT(DISTINCT received.notification_id) AS received_notifications,
+    COUNT(DISTINCT sent.notification_id) AS generated_notifications
+FROM users u
+LEFT JOIN notifications received
+    ON u.user_id = received.user_id
+LEFT JOIN notifications sent
+    ON u.user_id = sent.actor_id
+GROUP BY u.user_id, u.username
+HAVING received_notifications > 0
+   AND generated_notifications > 0
+ORDER BY received_notifications DESC;

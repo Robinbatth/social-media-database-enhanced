@@ -5221,3 +5221,18 @@ INSERT INTO LOGIN(user_id , ip) VALUES (35,'101.225.93.143');
 
 
 
+
+-- Added notification data
+INSERT INTO notifications
+(user_id, actor_id, notification_type, post_id, is_read)
+VALUES
+(24, 42, 'LIKE', 1, FALSE),
+(24, 45, 'COMMENT', 1, FALSE),
+(28, 21, 'LIKE', 2, TRUE),
+(28, 35, 'COMMENT', 2, FALSE),
+(37, 19, 'LIKE', 3, FALSE),
+(37, 50, 'LIKE', 3, TRUE),
+(23, 9, 'COMMENT', 4, FALSE),
+(35, 27, 'LIKE', 5, FALSE),
+(36, 46, 'LIKE', 6, TRUE),
+(6, 28, 'COMMENT', 8, FALSE);
